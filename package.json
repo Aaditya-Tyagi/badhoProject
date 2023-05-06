@@ -16,10 +16,24 @@
     "expo-status-bar": "~1.4.4",
     "graphql-tag": "^2.12.6",
     "react": "18.2.0",
-    "react-native": "0.71.7"
+    "react-native": "0.71.7",
+    "react-native-google-fonts": "^0.0.0",
+    "react-native-linear-gradient": "^2.6.2",
+    "react-native-paper": "^5.7.2",
+    "expo-font": "~11.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ],
+    "dependencies": {
+      "Space-Mono": "https://fonts.googleapis.com/css2?family=Space+Mono:ital@1&display=swap",
+      "Roboto-Bold": "https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5fBBc4AMP6lQ.woff2",
+      "Roboto-Italic": "https://fonts.gstatic.com/s/roboto/v27/KFOkCnqEu92Fr1Mu51xFIzIFKw.woff2"
+    }
   },
   "private": true
 }
