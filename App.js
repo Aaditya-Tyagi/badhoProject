@@ -8,12 +8,12 @@ import {
   Text,
   View
 } from 'react-native'
-import YouTube from 'react-native-youtube'
 import ApolloClient from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import gql from 'graphql-tag'
 import { Card, Title, Paragraph, TextInput, Button } from 'react-native-paper'
+import { Image } from 'react-native'
 
 //defining graphQL query
 const GET_LATEST_LAUNCH = gql`
@@ -21,6 +21,7 @@ const GET_LATEST_LAUNCH = gql`
     launchesPast(limit: 10) {
       mission_name
       launch_date_utc
+      details
       launch_site {
         site_name_long
       }
@@ -34,6 +35,7 @@ const GET_LATEST_LAUNCH = gql`
     }
   }
 `
+// const staticImage=require('./assets/Frame 1.jpg')
 export default function App () {
   const [pastLaunches, setPastLaunches] = useState([])
   const [loading, setLoading] = useState(true)
@@ -122,6 +124,7 @@ export default function App () {
         <Card.Content style={styles.card}>
           <Title style={styles.title}>{item.mission_name}</Title>
           <Card
+            onPress={() => Linking.openURL(item.links.video_link)}
             style={{
               backgroundColor: 'black',
               height: 120,
@@ -133,12 +136,12 @@ export default function App () {
             elevation={3}
           >
             <Text
-              onPress={() => Linking.openURL(item.links.video_link)}
               style={{ color: 'white', fontSize: 8 }}
             >
-              Cant see the video? no problem click on this text
+              Cant see the video? no problem click here
             </Text>
           </Card>
+          {/* <Image style={{width:'80%',height:120}} source={staticImage}/> */}
           {/* tried to embed a video link at the top of the card but the native video libraries throw unknown errors  */}
           {/* {item.links.video_link && (
             <Video
@@ -158,10 +161,16 @@ export default function App () {
           <Paragraph style={styles.paragraph}>
             Launch date: {item.launch_date_utc}
           </Paragraph>
-          <Paragraph style={styles.link}>
-            For more info on the mission
+          <Paragraph style={styles.paragraph}>
+            Description: {item.details}
           </Paragraph>
-          <Button onPress={() => Linking.openURL(item.links.article_link)} style={styles.articleLinkBTN}>
+          <Paragraph style={styles.link}>For more info...</Paragraph>
+          <Button
+            onPress={() => Linking.openURL(item.links.article_link)}
+            buttonColor='#8E24AA'
+            textColor='white'
+            style={{width:'90%'}}
+          >
             See More
           </Button>
         </Card.Content>
@@ -225,7 +234,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 10,
     elevation: 8,
-    backgroundColor: '#202020'
+    backgroundColor: '#202020',
+    width: '90%'
   },
   card: {
     display: 'flex',
@@ -239,34 +249,35 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   title: {
-    fontSize:25,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
     alignSelf: 'flex-start',
     color: 'white'
   },
-  missionName:{
-    fontSize:15,
-    fontWeight:'bold',
-    color:'white',
-    marginBottom:10
+  missionName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
+    marginTop: 15
   },
   paragraph: {
+    fontSize: 10,
     marginBottom: 10,
-    color: 'white'
+    color: 'white',
+    alignSelf: 'flex-start'
   },
   link: {
-    color: 'white',
-    fontStyle: 'italic'
+    fontSize: 10,
+    alignSelf: 'flex-start',
+    color: 'white'
   },
   searchInput: {
     marginEnd: 15,
-    marginTop:15,
+    marginTop: 15,
     backgroundColor: 'transparent',
-    color: 'white'
-  },
-  articleLinkBTN: {
-    width:'100%',
-    border:1
+    color: 'white',
+    minWidth:10
   }
 })
